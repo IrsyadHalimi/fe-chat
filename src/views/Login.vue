@@ -25,6 +25,7 @@ const login = async () => {
     <input v-model="username" placeholder="Username" />
     <input v-model="password" placeholder="Password" type="password" />
     <button @click="login">Login</button>
+    <a href="/register">Register</a>
   </div>
 </template>
 

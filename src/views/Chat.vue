@@ -1,7 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { io } from 'socket.io-client';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
+const username = ref('');
 const socket = io('http://localhost:3000');
 const message = ref('');
 const messages = ref([]);
@@ -32,13 +35,27 @@ const sendMessage = () => {
 };
 
 onMounted(() => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    username.value = payload.username;
+  }
+
   socket.on('chat message', (msg) => {
     messages.value.push(msg);
   });
 });
+
+const logout = () => {
+    localStorage.removeItem('token');
+    router.push('/login');
+    socket.disconnect();
+    socket.off('chat message'); // Hentikan mendengarkan pesan saat logout
+}
 </script>
 
 <template>
+  <span>Selamat datang, {{ username }}</span>
   <div>
     <ul>
       <li v-for="(msg, index) in messages" :key="index">
@@ -51,7 +68,8 @@ onMounted(() => {
       @keyup.enter="sendMessage"
       placeholder="Type your message..."
     />
-    <button @click="sendMessage">Kirim</button>
+    <button @click="sendMessage">Kirim</button><br />
+    <button @click="logout">Logout</button>
   </div>
 </template>
 
