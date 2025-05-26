@@ -3,6 +3,7 @@ import LoginView from '../views/Login.vue';
 import RegisterView from '../views/Register.vue';
 import ChatView from '../views/Chat.vue';
 import PrivateChatView from '../views/PrivateChat.vue';
+import InvitationView from '../views/Invitation.vue';
 
 const routes = [
     { path: '/', redirect: '/chat' },
@@ -10,6 +11,7 @@ const routes = [
     { path: '/register', name: 'register', component: RegisterView },
     { path: '/chat', name: 'chat', component: ChatView },
     { path: '/private-chat', name: 'private-chat', component: PrivateChatView },
+    { path: '/invitation', name: 'invitation', component: InvitationView },
 ];
 
 const router = createRouter({
